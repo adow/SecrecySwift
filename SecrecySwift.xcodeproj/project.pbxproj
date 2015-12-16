@@ -8,12 +8,54 @@
 
 /* Begin PBXBuildFile section */
 		6861DFFE1C21308800F410C9 /* SecrecySwift.h in Headers */ = {isa = PBXBuildFile; fileRef = 6861DFFD1C21308800F410C9 /* SecrecySwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6861E00C1C2130AB00F410C9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6861E00B1C2130AB00F410C9 /* AppDelegate.swift */; };
+		6861E00E1C2130AB00F410C9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6861E00D1C2130AB00F410C9 /* ViewController.swift */; };
+		6861E0111C2130AB00F410C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6861E00F1C2130AB00F410C9 /* Main.storyboard */; };
+		6861E0131C2130AB00F410C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6861E0121C2130AB00F410C9 /* Assets.xcassets */; };
+		6861E0161C2130AB00F410C9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6861E0141C2130AB00F410C9 /* LaunchScreen.storyboard */; };
+		6861E0201C21313F00F410C9 /* AES.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6861E01B1C21313F00F410C9 /* AES.swift */; };
+		6861E0211C21313F00F410C9 /* RSA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6861E01C1C21313F00F410C9 /* RSA.swift */; };
+		6861E0221C21313F00F410C9 /* SecrecyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6861E01D1C21313F00F410C9 /* SecrecyExtension.swift */; };
+		6861E0231C21313F00F410C9 /* Digest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6861E01E1C21313F00F410C9 /* Digest.swift */; };
+		6861E0241C21313F00F410C9 /* HMAC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6861E01F1C21313F00F410C9 /* HMAC.swift */; };
+		6861E0261C2131B600F410C9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6861E0251C2131B600F410C9 /* SystemConfiguration.framework */; };
+		6861E0281C2131BF00F410C9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6861E0271C2131BF00F410C9 /* Security.framework */; };
+		6861E0301C2133F700F410C9 /* Secrecy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6861DFFA1C21308800F410C9 /* Secrecy.framework */; };
+		6861E0331C2135EA00F410C9 /* cert.der in Resources */ = {isa = PBXBuildFile; fileRef = 6861E0311C2135EA00F410C9 /* cert.der */; };
+		6861E0341C2135EA00F410C9 /* cert.p12 in Resources */ = {isa = PBXBuildFile; fileRef = 6861E0321C2135EA00F410C9 /* cert.p12 */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		6861E02E1C2133ED00F410C9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6861DFF11C21308800F410C9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6861DFF91C21308800F410C9;
+			remoteInfo = SecrecySwift;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
-		6861DFFA1C21308800F410C9 /* SecrecySwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SecrecySwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6861DFFA1C21308800F410C9 /* Secrecy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Secrecy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6861DFFD1C21308800F410C9 /* SecrecySwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecrecySwift.h; sourceTree = "<group>"; };
 		6861DFFF1C21308800F410C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6861E0091C2130AB00F410C9 /* SecrecySwiftDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SecrecySwiftDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6861E00B1C2130AB00F410C9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		6861E00D1C2130AB00F410C9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		6861E0101C2130AB00F410C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		6861E0121C2130AB00F410C9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6861E0151C2130AB00F410C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		6861E0171C2130AB00F410C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6861E01B1C21313F00F410C9 /* AES.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AES.swift; sourceTree = "<group>"; };
+		6861E01C1C21313F00F410C9 /* RSA.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RSA.swift; sourceTree = "<group>"; };
+		6861E01D1C21313F00F410C9 /* SecrecyExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecrecyExtension.swift; sourceTree = "<group>"; };
+		6861E01E1C21313F00F410C9 /* Digest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Digest.swift; sourceTree = "<group>"; };
+		6861E01F1C21313F00F410C9 /* HMAC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAC.swift; sourceTree = "<group>"; };
+		6861E0251C2131B600F410C9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		6861E0271C2131BF00F410C9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		6861E02B1C2132CB00F410C9 /* module.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.map; sourceTree = "<group>"; };
+		6861E0311C2135EA00F410C9 /* cert.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = cert.der; sourceTree = "<group>"; };
+		6861E0321C2135EA00F410C9 /* cert.p12 */ = {isa = PBXFileReference; lastKnownFileType = file; path = cert.p12; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -21,6 +63,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6861E0281C2131BF00F410C9 /* Security.framework in Frameworks */,
+				6861E0261C2131B600F410C9 /* SystemConfiguration.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6861E0061C2130AB00F410C9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6861E0301C2133F700F410C9 /* Secrecy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -30,7 +82,10 @@
 		6861DFF01C21308800F410C9 = {
 			isa = PBXGroup;
 			children = (
+				6861E02A1C2132CB00F410C9 /* CommonCrypto */,
+				6861E0291C2131C900F410C9 /* Frameworks */,
 				6861DFFC1C21308800F410C9 /* SecrecySwift */,
+				6861E00A1C2130AB00F410C9 /* SecrecySwiftDemo */,
 				6861DFFB1C21308800F410C9 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -38,7 +93,8 @@
 		6861DFFB1C21308800F410C9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6861DFFA1C21308800F410C9 /* SecrecySwift.framework */,
+				6861DFFA1C21308800F410C9 /* Secrecy.framework */,
+				6861E0091C2130AB00F410C9 /* SecrecySwiftDemo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -46,10 +102,47 @@
 		6861DFFC1C21308800F410C9 /* SecrecySwift */ = {
 			isa = PBXGroup;
 			children = (
+				6861E01B1C21313F00F410C9 /* AES.swift */,
+				6861E01C1C21313F00F410C9 /* RSA.swift */,
+				6861E01D1C21313F00F410C9 /* SecrecyExtension.swift */,
+				6861E01E1C21313F00F410C9 /* Digest.swift */,
+				6861E01F1C21313F00F410C9 /* HMAC.swift */,
 				6861DFFD1C21308800F410C9 /* SecrecySwift.h */,
 				6861DFFF1C21308800F410C9 /* Info.plist */,
 			);
 			path = SecrecySwift;
+			sourceTree = "<group>";
+		};
+		6861E00A1C2130AB00F410C9 /* SecrecySwiftDemo */ = {
+			isa = PBXGroup;
+			children = (
+				6861E0311C2135EA00F410C9 /* cert.der */,
+				6861E0321C2135EA00F410C9 /* cert.p12 */,
+				6861E00B1C2130AB00F410C9 /* AppDelegate.swift */,
+				6861E00D1C2130AB00F410C9 /* ViewController.swift */,
+				6861E00F1C2130AB00F410C9 /* Main.storyboard */,
+				6861E0121C2130AB00F410C9 /* Assets.xcassets */,
+				6861E0141C2130AB00F410C9 /* LaunchScreen.storyboard */,
+				6861E0171C2130AB00F410C9 /* Info.plist */,
+			);
+			path = SecrecySwiftDemo;
+			sourceTree = "<group>";
+		};
+		6861E0291C2131C900F410C9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6861E0271C2131BF00F410C9 /* Security.framework */,
+				6861E0251C2131B600F410C9 /* SystemConfiguration.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6861E02A1C2132CB00F410C9 /* CommonCrypto */ = {
+			isa = PBXGroup;
+			children = (
+				6861E02B1C2132CB00F410C9 /* module.map */,
+			);
+			path = CommonCrypto;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -81,8 +174,26 @@
 			);
 			name = SecrecySwift;
 			productName = SecrecySwift;
-			productReference = 6861DFFA1C21308800F410C9 /* SecrecySwift.framework */;
+			productReference = 6861DFFA1C21308800F410C9 /* Secrecy.framework */;
 			productType = "com.apple.product-type.framework";
+		};
+		6861E0081C2130AB00F410C9 /* SecrecySwiftDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6861E0181C2130AB00F410C9 /* Build configuration list for PBXNativeTarget "SecrecySwiftDemo" */;
+			buildPhases = (
+				6861E0051C2130AB00F410C9 /* Sources */,
+				6861E0061C2130AB00F410C9 /* Frameworks */,
+				6861E0071C2130AB00F410C9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6861E02F1C2133ED00F410C9 /* PBXTargetDependency */,
+			);
+			name = SecrecySwiftDemo;
+			productName = SecrecySwiftDemo;
+			productReference = 6861E0091C2130AB00F410C9 /* SecrecySwiftDemo.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -90,10 +201,14 @@
 		6861DFF11C21308800F410C9 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "秦 道平";
 				TargetAttributes = {
 					6861DFF91C21308800F410C9 = {
+						CreatedOnToolsVersion = 7.2;
+					};
+					6861E0081C2130AB00F410C9 = {
 						CreatedOnToolsVersion = 7.2;
 					};
 				};
@@ -104,6 +219,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 6861DFF01C21308800F410C9;
 			productRefGroup = 6861DFFB1C21308800F410C9 /* Products */;
@@ -111,6 +227,7 @@
 			projectRoot = "";
 			targets = (
 				6861DFF91C21308800F410C9 /* SecrecySwift */,
+				6861E0081C2130AB00F410C9 /* SecrecySwiftDemo */,
 			);
 		};
 /* End PBXProject section */
@@ -123,6 +240,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6861E0071C2130AB00F410C9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6861E0161C2130AB00F410C9 /* LaunchScreen.storyboard in Resources */,
+				6861E0341C2135EA00F410C9 /* cert.p12 in Resources */,
+				6861E0131C2130AB00F410C9 /* Assets.xcassets in Resources */,
+				6861E0111C2130AB00F410C9 /* Main.storyboard in Resources */,
+				6861E0331C2135EA00F410C9 /* cert.der in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -130,10 +259,51 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6861E0221C21313F00F410C9 /* SecrecyExtension.swift in Sources */,
+				6861E0241C21313F00F410C9 /* HMAC.swift in Sources */,
+				6861E0211C21313F00F410C9 /* RSA.swift in Sources */,
+				6861E0201C21313F00F410C9 /* AES.swift in Sources */,
+				6861E0231C21313F00F410C9 /* Digest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6861E0051C2130AB00F410C9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6861E00E1C2130AB00F410C9 /* ViewController.swift in Sources */,
+				6861E00C1C2130AB00F410C9 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6861E02F1C2133ED00F410C9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6861DFF91C21308800F410C9 /* SecrecySwift */;
+			targetProxy = 6861E02E1C2133ED00F410C9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		6861E00F1C2130AB00F410C9 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6861E0101C2130AB00F410C9 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		6861E0141C2130AB00F410C9 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6861E0151C2130AB00F410C9 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		6861E0001C21308800F410C9 /* Debug */ = {
@@ -228,6 +398,7 @@
 		6861E0031C21308800F410C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -235,15 +406,23 @@
 				INFOPLIST_FILE = SecrecySwift/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = adow.SecrecySwift;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/system",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = adow.secrecy;
+				PRODUCT_MODULE_NAME = Secrecy;
+				PRODUCT_NAME = Secrecy;
 				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = CommonCrypto;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		6861E0041C21308800F410C9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -251,9 +430,37 @@
 				INFOPLIST_FILE = SecrecySwift/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = adow.SecrecySwift;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/system",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = adow.secrecy;
+				PRODUCT_MODULE_NAME = Secrecy;
+				PRODUCT_NAME = Secrecy;
 				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = CommonCrypto;
+			};
+			name = Release;
+		};
+		6861E0191C2130AB00F410C9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = SecrecySwiftDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = adow.SecrecySwiftDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6861E01A1C2130AB00F410C9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = SecrecySwiftDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = adow.SecrecySwiftDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -274,6 +481,14 @@
 			buildConfigurations = (
 				6861E0031C21308800F410C9 /* Debug */,
 				6861E0041C21308800F410C9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		6861E0181C2130AB00F410C9 /* Build configuration list for PBXNativeTarget "SecrecySwiftDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6861E0191C2130AB00F410C9 /* Debug */,
+				6861E01A1C2130AB00F410C9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
