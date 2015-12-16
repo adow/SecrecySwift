@@ -16,6 +16,9 @@ import CommonCrypto
 extension NSData {
     /// MARK: cbc
     private func aesCBC(operation:CCOperation,key:String, iv:String? = nil) -> NSData? {
+        guard [16,24,32].contains(key.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)) else {
+            return nil
+        }
         let input_bytes = self.arrayOfBytes()
         let key_bytes = key.bytes
         var encrypt_bytes = [UInt8](count: input_bytes.count * 2, repeatedValue: 0)
@@ -37,6 +40,9 @@ extension NSData {
     }
     // MARK: ecb
     private func aesEBC(operation:CCOperation, key:String) -> NSData? {
+        guard [16,24,32].contains(key.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)) else {
+            return nil
+        }
         let input_bytes = self.arrayOfBytes()
         let key_bytes = key.bytes
         var encrypt_bytes = [UInt8](count: input_bytes.count * 2, repeatedValue: 0)
