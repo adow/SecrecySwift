@@ -57,9 +57,11 @@ extension ViewController {
         }
         
         let raw = "0123456789abcdefg"
+        print(raw.digestBase64(DigestAlgorithm.SHA1))
         let raw_data = raw.dataUsingEncoding(NSUTF8StringEncoding)!
         let sign_data = _rsa.sign(RSAAlgorithm.SHA1,inputData:raw_data)
-        print(sign_data!.hexString)
+//        print(sign_data!.hexString)
+        print(sign_data!.base64String)
        
         let raw_test = "0123456789abcdefg"
         let raw_test_data = raw_test.dataUsingEncoding(NSUTF8StringEncoding)!
@@ -71,9 +73,10 @@ extension ViewController {
 extension ViewController{
     private func test_aes(){
         let key = "0000000000000000"
-//        let raw = "0123456789abcdef"
+        let raw = "0123456789abcdef"
+//        let raw = "012345678"
 //        let raw = "123你好把呵呵"
-        let raw = "你好!a"
+//        let raw = "你好!a"
         let encrypt_1 = raw.aesEBCEncrypt(key)
         print(encrypt_1!.hexString)
         print(encrypt_1!.hexString.aesEBCDecryptFromHex(key))
@@ -81,7 +84,7 @@ extension ViewController{
         print(encrypt_1!.base64String.aesEBCDecryptFromBase64(key))
         
 //        let iv = "1111111111111111"
-        let iv = "0000000000000000000000000000000000"
+        let iv = "0000000000000000"
         let encrypt = raw.aesCBCEncrypt(key,iv: iv)
         print(encrypt!.hexString)
         print(encrypt!.hexString.aesCBCDecryptFromHex(key,iv: iv))
