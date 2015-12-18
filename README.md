@@ -193,6 +193,10 @@ CBC 模式可以指定 IV,如果不指定 IV 的话将用 0 填充;
 			func dataFromHexadecimalString() -> NSData?
 		}
 		
+## 测试 
+
+* [Python 用来测试 SecrecySwift 签名和加密的脚本](SecrecyTestPy/test.py)
+		
 ## References
 
 * [【加密解密】加密解密介绍](http://www.jianshu.com/p/98610bdc9bd6)
