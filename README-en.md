@@ -1,60 +1,57 @@
 # SecrecySwift
 
-[Readme in English](README-en.md)
 
-SecrecySwift ，通过包装 `CommonCrypto` 和 `Security.framework`,实现 Swift 下的摘要方法/AES/RSA加密和签名。
+SecrecySwift is a wrapper library for `CommonCrypto` and `Security.framework` in Swift. It provides crpyto related functions.
 
-## 特性
+## Features 
 
-* 摘要算法 (Digest/HMAC): `MD2`/`MD4`/`MD5`/`SHA1`/`SHA224`/`SHA384`/`SHA512`；
-* AES 加密和解密: `EBC`/`CBC` 模式；
-* RSA 加密/解密以及签名和验证算法: `MD2`/`MD5`/`SHA1`/`SHA224`/`SHA384`；
+* Digest and HMAC: `MD2`/`MD4`/`MD5`/`SHA1`/`SHA224`/`SHA384`/`SHA512`;
+* AES Encrypt and Decrypt: `EBC`/`CBC`;
+* RSA Encrypt/Decrypt and Sign/Verify with digest of `MD2`/`MD5`/`SHA1`/`SHA224`/`SHA384`;
 
-## 安装
+## Installing
 
-### 使用 Carthage 安装
+### Carthage
 
-`Carthage` 是一个去中心化的包管理工具。
+Carthage is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
 
-安装 Carthage
+You can install Carthage with Homebrew using the following command:
 
 	$ brew update
 	$ brew install carthage
 	
-集成 SecrecySwift 到 iOS 项目
-
-1. 在项目中创建 `Cartfile` 文件，并添加下面内容
+Buid for iOS	
+	
+1. Create a Cartfile that lists the frameworks you’d like to use in your project.
 
 		git "git@github.com:adow/SecrecySwift.git" == 0.3.0
-		
-2. 运行 `Carthage update`, 获取 SecrecySwift;
-3. 拖动 `Carthage/Build/iOS` 下面的 `Secrecy.framwork` 到项目 `Targets`, `General` 设置标签的 `Linked Frameworks and Linraries` 中；
-4. 在 `Targes` 的 `Build Phases` 设置中，点击 `+` 按钮，添加 `New Run Script Phase` 来添加脚本:
+	
+2. Run `carthage update`. This will fetch dependencies into a Carthage/Checkouts folder, then build each one.
+3. On your application targets’ “General” settings tab, in the “Linked Frameworks and Libraries” section, drag and drop each framework you want to use from the Carthage/Build folder on disk.
+4. On your application targets’ “Build Phases” settings tab, click the “+” icon and choose “New Run Script Phase”. Create a Run Script with the following contents:
 
 		/usr/local/bin/carthage copy-frameworks
 		
-同时在下面的 `Input Files` 中添加:
+and add the paths to the frameworks you want to use under “Input Files”, e.g.:
 
 		$(SRCROOT)/Carthage/Build/iOS/Secrecy.framework
-		
-### 手动安装
+	
+### Manually 
 
-#### 通过 Git Submodule
+#### Git Submodule
 
-通过 Submodule 将 SecrecySwift 作为 Embedded Framework 添加到项目中。
-
-* 首先确保项目已经在 git 仓库中;
-* 添加 `SecrecySwift` 作为 Submodule:
+* Make sure that your project is in Git repository;
+* Add `SecrecySwift` as submodule;
 
 		git submodule add git@github.com:adow/SecrecySwift.git
+	
+* Drag and drop `SecrecySwift.xcodeproj` to your project;
+* On your application targets, `General` tab, `Embedded Binaries` setting, click `+` to add `Secrecy.framework`. You will find `Secrecy.framework` is also in `Build Phases` / `Link Binary with Libraries`.
 
-* 在 Xcode 中打开项目，将 SecrecySwift.xcodeproj 拖放到你的项目的根目录下;
-* 在你的项目下，选择 `Targets` , `General` 中添加 `Embedded Binaries`, 选择 `Secrecy.framework`, 确保 `Build Phases` 中的 `Link Binary with Libraries` 中有 `Secrecy.framework`;
 
+#### Add Source Code to your project (Compatible with iOS7)
 
-#### 项目中直接部署源代码 (兼容iOS7)
-
-复制 `SecrecySwift` 目录下的这些文件到项目中
+Copy following files in folder `SecrecySwift` to your project:
 
 * AES.swift
 * Digest.swift
@@ -62,19 +59,16 @@ SecrecySwift ，通过包装 `CommonCrypto` 和 `Security.framework`,实现 Swif
 * RSA.swift
 * SecrecyExtension.swift
 
-这样就不需要 `import Secrecy`, 直接使用里面的函数了；
+You should not `import Secrecy` any more.
 
-### 为什么没有 Cocoapods
+## Usage
 
-我尝试了好多次使用 `Cocoapods` 发布，但是实在没有制作 Cocoapods 的经验，好像是由于需要链接 `CommonCrypto` 的缘故，我参考了很多人写的 podspec 文件，仍然无法正确的链接 `CommonCrypto`, `pod lib lint` 一直都失败。如果您知道如何正确的为这个项目写一个 `podspec`,请一定要发一个 Pull Request 给我。
 
-## 使用
+### Digest and HMAC
 
-### 摘要和 HMAC
+Digest.swift and HMAC.swift are forked from SwiftSSL: [https://github.com/SwiftP2P/SwiftSSL](https://github.com/SwiftP2P/SwiftSSL)
 
-只要方法来自 SwiftSSL 项目: [https://github.com/SwiftP2P/SwiftSSL](https://github.com/SwiftP2P/SwiftSSL)
-
-支持以下的摘要方法
+Following alagorithms are available.
 
 * MD2；
 * MD4；
@@ -85,18 +79,19 @@ SecrecySwift ，通过包装 `CommonCrypto` 和 `Security.framework`,实现 Swif
 * SHA384；
 * SHA512；
 
-#### 摘要方法:
+#### Digest:
 
-NSData/String 的 `digestHex/digestBase64` 支持将摘要输出为 hex 和 base64 字符串;
+
+Methods `digestHex/digestBase64` in `NSData` and `String` could be used to digest it to Hex or Base64 Strings.
 
 		let raw = "abc123"
 		print(raw.digestHex(DigestAlgorithm.MD5))
 		print(raw.digestBase64(DigestAlgorithm.MD5))
 
 
-#### HMAC 签名方法
+#### HMAC Signarure
 
-NSData/String 的 `signHex/signBase64` 方法支持签名输出为 hex 和 base64 字符串;
+`signHex/signBase64` in `NSData` and `String` are signature methods to Hex and Base64 Strings. 
 
 		let raw = "abc123"
 		print(raw.signHex(HMACAlgorithm.SHA1, key: "abc"))
@@ -104,28 +99,25 @@ NSData/String 的 `signHex/signBase64` 方法支持签名输出为 hex 和 base6
 		print(raw.signBase64(HMACAlgorithm.SHA1, key: "你好"))
 
 
-### AES 
+## AES 
 
 
-支持 AES 模式 :
+It supports modes of:
 
 * EBC;
 * CBC: 
 
-** 只支持 PKCSPaddding7 的补齐方式；** 
+Only PKCSPadding7 for AES is supported. Following encrypt alagorithms are supported depending on the length of KEY.
 
-根据提供的 Key 的长度，支持以下的加密方法
+* AES128: 16;
+* AES192: 24;
+* AES256: 32;
 
-* AES128: 16位
-* AES192: 24位;
-* AES256: 32位;
+### EBC MODE
 
-
-#### EBC 模式
-
-* `aesEBCEncrypt` 进行EBC模式加密，
-* `aesEBCDecryptFromHex` 从 hex 字符串进行EBC模式解密
-* `aesEBCDecryptBase64` 从 base64 字符串进行EBC解密
+* `aesEBCEncrypt`: Encrypt in EBC Mode.
+* `aesEBCDecryptFromHex` Decrypt in EBC Mode from a Hex String.
+* `aesEBCDecryptBase64` Decrypt in EBC Mode from a Base64 String.
 
 		let key = "0000000000000000"
 		let raw = "0123456789abcdef"
@@ -135,13 +127,13 @@ NSData/String 的 `signHex/signBase64` 方法支持签名输出为 hex 和 base6
 		print(encrypt_1!.base64String)
 		print(encrypt_1!.base64String.aesEBCDecryptFromBase64(key))
 
-#### CBC 模式  
+### CBC Mode  
 
-CBC 模式可以指定 IV,如果不指定 IV 的话将用 0 填充;
+CBC Mode can use IV, which will be filled with Zero if not specificed.
 
-* `aesCBCEncrypt` 进行加密;
-* `aecCBCDecryptFromHex` 从 hex 字符串进行解密
-* `aesCBCDecryptFromBase64` 从 base64 字符串进行解密
+* `aesCBCEncrypt` Encyrpt in CBC Mode;
+* `aecCBCDecryptFromHex`: Decrypt in CBC mode from a Hex String.
+* `aesCBCDecryptFromBase64`: Decrypt in CBC mode from a Base64 String.
 		
 		let iv = "0000000000000000"
 		let encrypt = raw.aesCBCEncrypt(key,iv: iv)
@@ -150,38 +142,38 @@ CBC 模式可以指定 IV,如果不指定 IV 的话将用 0 填充;
 		print(encrypt!.base64String)
 		print(encrypt!.base64String.aesCBCDecryptFromBase64(key,iv: iv))
 
-### RSA 
+## RSA 
 
-** 只支持 `.cert` 文件格式的公钥和 `.p12` 格式的私钥 (而 PHP/Java/Python 这些平台使用 pem 文件)；只支持 PKCS1Padding 的补齐；** 
+RSA in SecrecySwift supports file formats of `.cert` for public key and `.p12` for private key. PKCS1Padding is used in RSA.
 
-使用 `OpenSSL` 生成各个证书的方法
+Generate certificates by `OpenSSL`:
 
-	# 生成 RSA 私钥
+	# Generate RSA Private Key
 	openssl genrsa  -out private.pem  2048
 	
-	# 从密钥中提取公钥
+	# Get Public Key (pem file) from private key
 	openssl rsa  -pubout  -in private.pem  -out public.pem
 	
-	# 用私钥生成证书签名请求
+	# Genrate Certificate Request from private key
 	openssl req -new -key private.pem -out cert.csr
 	
-	# 用私钥和证书签名请求生成自签名的证书
+	# Generate Self-Signature Certificate from private key
 	openssl x509 -req -days 3650 -in cert.csr -signkey private.pem -out cert.crt
 	
-	# 将自签名的证书转换为 DER 格式（里面包含公钥）
+	# Convert it to DER Format (Contains Public key)
 	openssl x509 -outform der -in cert.crt -out cert.der
 	
-	# 将私钥和证书导出到 p12 文件中（要求输入密码）
+	# Export p12 file, with a password (Contains Private key)
 	openssl pkcs12 -export -inkey private.pem -in cert.crt -out cert.p12
 
 
-#### 加密和解密
+### Encrypt and Decrypt
 
-使用公钥进行加密
+Encrypt using Public Key
 
 * `public func encrypt(data:NSData) -> NSData?`
 
-使用私钥进行解密 
+Decrypt usign Private Key 
 
 * `public func decrypt(data:NSData) -> NSData?`
 * `public func decrypt(fromHexString hexString:String) -> NSData?`
@@ -202,9 +194,9 @@ CBC 模式可以指定 IV,如果不指定 IV 的话将用 0 填充;
 		let old_string = String(data: old_data!, encoding: NSUTF8StringEncoding)
 		print("old_string:\(old_string)")
 
-### 签名和验证
+### Sign and Verify
 
-支持签名时的摘要算法:
+You can use following alagorithms to sign:
  
 * MD2;
 * MD5;
@@ -215,11 +207,11 @@ CBC 模式可以指定 IV,如果不指定 IV 的话将用 0 填充;
 * SHA512；
 
 
-使用私钥签名方法:
+Sign using Private Key:
 
 `public func sign(algorithm:RSAAlgorithm,inputData:NSData) -> NSData?`
 
-使用公钥的验证方法:
+Verify using Public Key:
 
 `public func verify(algorithm:RSAAlgorithm,inputData:NSData, signedData:NSData) -> Bool`
 
@@ -243,11 +235,11 @@ CBC 模式可以指定 IV,如果不指定 IV 的话将用 0 填充;
 		let verified = _rsa.verify(RSAAlgorithm.SHA1,inputData: raw_test_data, signedData: sign_data!)
 		print("\(verified)")
 		
-## 扩展 NSData
+## NSData Extension
 
-* `hexString`: 输出 hex 字符串;
-* `base64String`: 输出 base64 字符串
-* `arrayOfBytes`: 输出 `[UInt8]` 数组;
+* `hexString`:  Hex string;
+* `base64String`: Base64 String
+* `arrayOfBytes`: Array of UInt8
 
 
 		extension NSData {
@@ -256,17 +248,17 @@ CBC 模式可以指定 IV,如果不指定 IV 的话将用 0 填充;
 			public func arrayOfBytes() -> [UInt8]
 		}
 		
-## 扩展 String
+## String Extension
 
-* `dataFromHexadecimalString`: 从 hex 字符串转换到 NSData;
+* `dataFromHexadecimalString`: Get NSData from Hex String;
 
 		extenstion String {
 			func dataFromHexadecimalString() -> NSData?
 		}
 		
-## 测试 
+## Test Script in Python 
 
-* 如何在 Python 中验证和 SecrecySwift 相同功能的示例 [SecrecyTestPy/test.py](SecrecyTestPy/test.py)
+* Checkout how to impletment same functions in Python as SecrecySwift. [SecrecyTestPy/test.py](SecrecyTestPy/test.py)
 		
 ## References
 
