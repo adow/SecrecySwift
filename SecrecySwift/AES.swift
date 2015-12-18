@@ -6,7 +6,7 @@
 //  Copyright © 2015年 秦 道平. All rights reserved.
 //
 //  key 满足 16(AES128)/24(AES192)/32(AES256) 位
-//  只支持 ECB/CBC 模式， cbc 模式必须要 padding,只支持 PKCS7Padding
+//  只支持 ECB/CBC 模式， cbc 模式必须要 IV,只支持 PKCS7Padding
 //  raw 的长度必须大于3个字符
 
 import Foundation
