@@ -150,6 +150,7 @@ public struct RSA {
     private let publicKey:SecKeyRef!
     private let privateKey:SecKeyRef!
     // MARK: init
+    /// PublicKey must be in .der format and private must be in .p12 format
     public init(publicKey:SecKeyRef!, privateKey:SecKeyRef!){
         self.publicKey = publicKey
         self.privateKey = privateKey
@@ -160,6 +161,12 @@ public struct RSA {
         self.publicKey = rsa_publickey_from_data(publicKeyData)!
         self.privateKey = rsa_privatekey_from_data(privateKeyData, withPassword: password)!
     }
+    /* Generate RSA instance from file of public key and private key
+        - parameter publicKeyFilename: filename of publicKey
+        - parameter privateKeyFilename: filename of privateKey
+        - parameter password: password or empty if not set
+        - returns: RSA instance if succeed or nil if failed
+    */
     public init?(filenameOfPulbicKey publicKeyFilename:String,
         filenameOfPrivateKey privateKeyFilename:String, withPasswordOfPrivateKey password:String = ""){
         let publicKeyData = NSData(contentsOfFile: publicKeyFilename)
@@ -173,15 +180,15 @@ public struct RSA {
 }
 // MARK: - encrypt
 extension RSA {
-    /// encrypt
+    /// Encrypt with privateKey
     public func encrypt(data:NSData) -> NSData? {
         return rsa_encrypt(data, withKey: self.publicKey)
     }
-    /// decyrpt data
+    /// Decrypt with publicKey
     public func decrypt(data:NSData) -> NSData? {
         return rsa_decrypt(data, withKey: self.privateKey)
     }
-    /// decyrpt hex string
+    /// Decrypt a hexadecimal string with publicKey
     public func decrypt(fromHexString hexString:String) -> NSData? {
         let data = hexString.dataFromHexadecimalString()
         guard let _data = data else {
@@ -189,7 +196,7 @@ extension RSA {
         }
         return self.decrypt(_data)
     }
-    /// decrypt base64 string
+    /// Decrypt a base64 string with publicKey
     public func decrypt(fromBase64String base64String:String) -> NSData? {
         let data = NSData(base64EncodedString: base64String, options: NSDataBase64DecodingOptions())
         guard let _data = data else {
@@ -200,11 +207,11 @@ extension RSA {
 }
 // MARK: - sign
 extension RSA {
-    /// sign
+    /// Sign data with digest algorithm
     public func sign(algorithm:RSAAlgorithm,inputData:NSData) -> NSData? {
         return rsa_sign(inputData, withAlgorithm: algorithm, withKey: self.privateKey)
     }
-    /// verify
+    /// Verify signature with algorithm
     public func verify(algorithm:RSAAlgorithm,inputData:NSData, signedData:NSData) -> Bool {
         return rsa_verify(inputData, signedData: signedData, withAlgorithm: algorithm, whthKey: self.publicKey)
     }

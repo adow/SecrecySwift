@@ -152,7 +152,7 @@ CBC 模式可以指定 IV,如果不指定 IV 的话将用 0 填充;
 
 ### RSA 
 
-** 只支持 `.cert` 文件格式的公钥和 `.p12` 格式的私钥 (而 PHP/Java/Python 这些平台使用 pem 文件)；只支持 PKCS1Padding 的补齐；** 
+** 只支持 `.der` 文件格式的公钥和 `.p12` 格式的私钥 (而 PHP/Java/Python 这些平台使用 pem 文件)；只支持 PKCS1Padding 的补齐；** 
 
 使用 `OpenSSL` 生成各个证书的方法
 

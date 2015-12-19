@@ -14,7 +14,7 @@ import CommonCrypto
 
 
 extension NSData {
-    /// MARK: cbc
+    // MARK: cbc
     private func aesCBC(operation:CCOperation,key:String, iv:String? = nil) -> NSData? {
         guard [16,24,32].contains(key.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)) else {
             return nil
@@ -32,9 +32,11 @@ extension NSData {
         }
         return nil
     }
+    /// Encrypt data in CBC Mode, iv will be filled with zero if not specificed
     public func aesCBCEncrypt(key:String,iv:String? = nil) -> NSData? {
         return aesCBC(UInt32(kCCEncrypt), key: key, iv: iv)
     }
+    /// Decrypt data in CBC Mode ,iv will be filled with zero if not specificed
     public func aesCBCDecrypt(key:String,iv:String? = nil)->NSData?{
         return aesCBC(UInt32(kCCDecrypt), key: key, iv: iv)
     }
@@ -55,21 +57,25 @@ extension NSData {
         }
         return nil
     }
+    /// Encrypt data in EBC Mode
     public func aesEBCEncrypt(key:String) -> NSData? {
         return aesEBC(UInt32(kCCEncrypt), key: key)
         
     }
+    /// Decrypt data in EBC Mode
     public func aesEBCDecrypt(key:String) -> NSData? {
         return aesEBC(UInt32(kCCDecrypt), key: key)
     }
 }
 extension String{
     // MARK: cbc
+    /// Encrypt string in CBC mode, iv will be filled with Zero if not specificed
     public func aesCBCEncrypt(key:String,iv:String? = nil) -> NSData? {
         let data = self.dataUsingEncoding(NSUTF8StringEncoding)
 //        print(data!.hexString)
         return data?.aesCBCEncrypt(key, iv: iv)
     }
+    /// Decrypt a hexadecimal string in CBC Mode, iv will be filled with Zero if not specificed
     public func aesCBCDecryptFromHex(key:String,iv:String? = nil) ->String?{
         let data = self.dataFromHexadecimalString()
         guard let raw_data = data?.aesCBCDecrypt(key, iv: iv) else{
@@ -78,6 +84,7 @@ extension String{
 //        print(raw_data.hexString)
         return String(data: raw_data, encoding: NSUTF8StringEncoding)
     }
+    /// Decrypt a base64 string in CBC mode, iv will be filled with Zero if not specificed
     public func aesCBCDecryptFromBase64(key:String, iv:String? = nil) ->String? {
         let data = NSData(base64EncodedString: self, options: NSDataBase64DecodingOptions())
         guard let raw_data = data?.aesCBCDecrypt(key, iv: iv) else{
@@ -86,10 +93,12 @@ extension String{
         return String(data: raw_data, encoding: NSUTF8StringEncoding)
     }
     // MARK: ebc
+    /// Encrypt a string in EBC Mode
     public func aesEBCEncrypt(key:String) -> NSData? {
         let data = self.dataUsingEncoding(NSUTF8StringEncoding)
         return data?.aesEBCEncrypt(key)
     }
+    /// Decrypt a hexadecimal string in EBC Mode
     public func aesEBCDecryptFromHex(key:String) -> String? {
         let data = self.dataFromHexadecimalString()
         guard let raw_data = data?.aesEBCDecrypt(key) else {
@@ -97,6 +106,7 @@ extension String{
         }
         return String(data: raw_data, encoding: NSUTF8StringEncoding)
     }
+    /// Decrypt a base64 string in EBC Mode
     public func aesEBCDecryptFromBase64(key:String) -> String? {
         let data = NSData(base64EncodedString: self, options: NSDataBase64DecodingOptions())
         guard let raw_data = data?.aesEBCDecrypt(key) else {

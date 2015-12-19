@@ -40,7 +40,6 @@ extension UInt8 {
     }
 }
 extension NSData {
-    /// 输出 hex 字符串
     public func hexadecimalString() -> String {
         let string = NSMutableString(capacity: length * 2)
         var byte: UInt8 = 0
@@ -51,14 +50,13 @@ extension NSData {
         
         return string as String
     }
-    /// 输出 hex 字符串
     public var hexString : String {
         return self.hexadecimalString()
     }
-    /// 输出 base64 字符串
     public var base64String:String {
         return self.base64EncodedStringWithOptions(NSDataBase64EncodingOptions())
     }
+    /// Array of UInt8
     public func arrayOfBytes() -> [UInt8] {
         let count = self.length / sizeof(UInt8)
         var bytesArray = [UInt8](count: count, repeatedValue: 0)
@@ -67,18 +65,16 @@ extension NSData {
     }
 }
 extension String {
+    /// Array of UInt8
     public var arrayOfBytes:[UInt8] {
         let data = self.dataUsingEncoding(NSUTF8StringEncoding)!
         return data.arrayOfBytes()
     }
-//    public var bytes:[UInt8]{
-//        let data = self.dataUsingEncoding(NSUTF8StringEncoding)!
-//        return data.arrayOfBytes()
-//    }
     public var bytes:UnsafePointer<Void>{
         let data = self.dataUsingEncoding(NSUTF8StringEncoding)!
         return data.bytes
     }
+    /// Get data from hexadecimal string
     func dataFromHexadecimalString() -> NSData? {
         let trimmedString = self.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "<> ")).stringByReplacingOccurrencesOfString(" ", withString: "")
         

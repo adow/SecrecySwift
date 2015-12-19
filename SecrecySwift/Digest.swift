@@ -129,18 +129,22 @@ public enum DigestAlgorithm: CustomStringConvertible {
 }
 
 extension String {
+    /// Digest to an array of UInt8
     public func digestBytes(algorithm:DigestAlgorithm)->[UInt8]{
         let data = self.dataUsingEncoding(NSUTF8StringEncoding)
         return data!.digestBytes(algorithm)
     }
+    /// Digest with an algorithm
     public func digestData(algorithm:DigestAlgorithm)->NSData{
         let data = self.dataUsingEncoding(NSUTF8StringEncoding)
         return data!.digestData(algorithm)
     }
+    /// Digest with an algorithm to a hexadecimal string
     public func digestHex(algorithm:DigestAlgorithm)->String{
         let data = self.dataUsingEncoding(NSUTF8StringEncoding)
         return data!.digestHex(algorithm)
     }
+    /// Digest with an algorithm to a base64 string
     public func digestBase64(algorithm:DigestAlgorithm)->String{
         let data = self.dataUsingEncoding(NSUTF8StringEncoding)
         return data!.digestBase64(algorithm)
@@ -148,6 +152,7 @@ extension String {
 }
 
 extension NSData {
+    /// Digest data to an array of UInt8
     public func digestBytes(algorithm:DigestAlgorithm)->[UInt8]{
         let string = UnsafePointer<UInt8>(self.bytes)
         let stringLength = UInt32(self.length)
@@ -157,10 +162,12 @@ extension NSData {
         let bytes = closure(data: string, dataLength: stringLength)
         return bytes
     }
+    /// Digest data with an algorithm
     public func digestData(algorithm:DigestAlgorithm)->NSData{
         let bytes = self.digestBytes(algorithm)
         return NSData(bytes: bytes, length: bytes.count)
     }
+    /// Digest data with an algorithm to a hexadecimal string
     public func digestHex(algorithm:DigestAlgorithm)->String{
         let digestLength = algorithm.digestLength()
         let bytes = self.digestBytes(algorithm)
@@ -170,6 +177,7 @@ extension NSData {
         }
         return hashString
     }
+    /// Digest string to a base64 string with an algorithm
     public func digestBase64(algorithm:DigestAlgorithm)->String{
         let data = self.digestData(algorithm)
         return data.base64String

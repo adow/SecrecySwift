@@ -144,7 +144,7 @@ CBC Mode can use IV, which will be filled with Zero if not specificed.
 
 ## RSA 
 
-RSA in SecrecySwift supports file formats of `.cert` for public key and `.p12` for private key. PKCS1Padding is used in RSA.
+RSA in SecrecySwift supports file formats of `.der` for public key and `.p12` for private key. PKCS1Padding is used in RSA.
 
 Generate certificates by `OpenSSL`:
 

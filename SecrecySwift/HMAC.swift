@@ -74,18 +74,22 @@ public enum HMACAlgorithm: CustomStringConvertible {
 }
 
 extension String {
+    /// Sign to an array ot UInt8
     public func signBytes(algorithm:HMACAlgorithm, key:String) -> [UInt8] {
         let data = self.dataUsingEncoding(NSUTF8StringEncoding)
         return data!.signBytes(algorithm, key: key)
     }
+    /// Sign with algorithm
     public func signData(algorithm:HMACAlgorithm, key:String) -> NSData {
         let data = self.dataUsingEncoding(NSUTF8StringEncoding)
         return data!.signData(algorithm, key: key)
     }
+    /// Sign and hexadecimal string will be returned
     public func signHex(algorithm:HMACAlgorithm, key:String)->String {
         let data = self.dataUsingEncoding(NSUTF8StringEncoding)
         return data!.signHex(algorithm, key: key)
     }
+    /// Sign and base64 string will be returned
     public func signBase64(algorithm:HMACAlgorithm, key:String) -> String {
         let data = self.dataUsingEncoding(NSUTF8StringEncoding)
         return data!.signBase64(algorithm, key: key)
@@ -93,6 +97,7 @@ extension String {
 }
 
 extension NSData {
+    /// Sign data to an array of UInt8
     public func signBytes(algorithm:HMACAlgorithm, key:String) -> [UInt8]{
         let string = UnsafePointer<UInt8>(self.bytes)
         let stringLength = self.length
@@ -103,11 +108,13 @@ extension NSData {
         CCHmac(algorithm.toCCEnum(), keyString, keyLength, string, stringLength, &result)
         return result
     }
+    /// Sign with an algorithm
     public func signData(algorithm:HMACAlgorithm, key:String) -> NSData {
         let bytes = self.signBytes(algorithm, key: key)
         let data = NSData(bytes: bytes, length: bytes.count)
         return data
     }
+    /// Sign a data and export to a hexadecimal string
     public func signHex(algorithm:HMACAlgorithm, key:String)->String {
         let bytes = self.signBytes(algorithm, key: key)
         let digestLength = bytes.count
@@ -117,6 +124,7 @@ extension NSData {
         }
         return hash
     }
+    /// Sign a data and export to a base64 string
     public func signBase64(algorithm:HMACAlgorithm, key:String) -> String {
         let data = self.signData(algorithm, key: key)
         return data.base64String
