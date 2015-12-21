@@ -32,7 +32,7 @@ Buid for iOS
 
 		/usr/local/bin/carthage copy-frameworks
 		
-and add the paths to the frameworks you want to use under “Input Files”, e.g.:
+	and add the paths to the frameworks you want to use under “Input Files”, e.g.:
 
 		$(SRCROOT)/Carthage/Build/iOS/Secrecy.framework
 	
@@ -40,24 +40,35 @@ and add the paths to the frameworks you want to use under “Input Files”, e.g
 
 #### Git Submodule
 
-* Make sure that your project is in Git repository;
-* Add `SecrecySwift` as submodule;
+1. Make sure that your project is in Git repository;
+2. Add `SecrecySwift` as submodule;
 
 		git submodule add git@github.com:adow/SecrecySwift.git
 	
-* Drag and drop `SecrecySwift.xcodeproj` to your project;
-* On your application targets, `General` tab, `Embedded Binaries` setting, click `+` to add `Secrecy.framework`. You will find `Secrecy.framework` is also in `Build Phases` / `Link Binary with Libraries`.
+3. Drag and drop `SecrecySwift.xcodeproj` to your project;
+4. On your application targets, `General` tab, `Embedded Binaries` setting, click `+` to add `Secrecy.framework`. You will find `Secrecy.framework` is also in `Build Phases` / `Link Binary with Libraries`.
 
 
 #### Add Source Code to your project (Compatible with iOS7)
 
-Copy following files in folder `SecrecySwift` to your project:
+1. Copy following files in folder `SecrecySwift` to your project:
 
-* AES.swift
-* Digest.swift
-* HMAC.swift
-* RSA.swift
-* SecrecyExtension.swift
+	* AES.swift
+	* Digest.swift
+	* HMAC.swift
+	* RSA.swift
+	* SecrecyExtension.swift
+	
+2. Crate a folder named `CommonCrypto` in your project and put a `module.map` file:
+
+		module CommonCrypto [system] {
+		    header "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/CommonCrypto/CommonCrypto.h"
+		    link "CommonCrypto"
+		    export *
+		}
+
+3. On your application targets `Build Settings`, `Import Paths` setting, add `CommonCrypto`;
+4. On your applicationtargets `Build Phases` tab, `Link Binary with Linbrries` setting, add `Security.framework` and `SystemConfiguration.framework`;
 
 You should not `import Secrecy` any more.
 

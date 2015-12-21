@@ -33,7 +33,7 @@ SecrecySwift ，通过包装 `CommonCrypto` 和 `Security.framework`,实现 Swif
 
 		/usr/local/bin/carthage copy-frameworks
 		
-同时在下面的 `Input Files` 中添加:
+	同时在下面的 `Input Files` 中添加:
 
 		$(SRCROOT)/Carthage/Build/iOS/Secrecy.framework
 		
@@ -43,24 +43,36 @@ SecrecySwift ，通过包装 `CommonCrypto` 和 `Security.framework`,实现 Swif
 
 通过 Submodule 将 SecrecySwift 作为 Embedded Framework 添加到项目中。
 
-* 首先确保项目已经在 git 仓库中;
-* 添加 `SecrecySwift` 作为 Submodule:
+1. 首先确保项目已经在 git 仓库中;
+2. 添加 `SecrecySwift` 作为 Submodule:
 
 		git submodule add git@github.com:adow/SecrecySwift.git
 
-* 在 Xcode 中打开项目，将 SecrecySwift.xcodeproj 拖放到你的项目的根目录下;
-* 在你的项目下，选择 `Targets` , `General` 中添加 `Embedded Binaries`, 选择 `Secrecy.framework`, 确保 `Build Phases` 中的 `Link Binary with Libraries` 中有 `Secrecy.framework`;
+3. 在 Xcode 中打开项目，将 SecrecySwift.xcodeproj 拖放到你的项目的根目录下;
+4. 在你的项目下，选择 `Targets` , `General` 中添加 `Embedded Binaries`, 选择 `Secrecy.framework`, 确保 `Build Phases` 中的 `Link Binary with Libraries` 中有 `Secrecy.framework`;
 
 
 #### 项目中直接部署源代码 (兼容iOS7)
 
-复制 `SecrecySwift` 目录下的这些文件到项目中
+1. 复制 `SecrecySwift` 目录下的这些文件到项目中
 
-* AES.swift
-* Digest.swift
-* HMAC.swift
-* RSA.swift
-* SecrecyExtension.swift
+	* AES.swift
+	* Digest.swift
+	* HMAC.swift
+	* RSA.swift
+	* SecrecyExtension.swift
+
+2. 在项目根目录下建立一个 CommonCrypto, 并建立一个 module.map 文件
+
+		module CommonCrypto [system] {
+		    header "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/CommonCrypto/CommonCrypto.h"
+		    link "CommonCrypto"
+		    export *
+		}
+
+3. 在项目 Targets 的 `Build Settings` 中添加 `Import Paths` 中添加 `CommonCrypto`。
+
+4. 在 `Targets` 中 `Build Phases` 的 `Link Binary with Libraries` 中添加 `Security.framework` 和 `SystemConfiguration.framework`。
 
 这样就不需要 `import Secrecy`, 直接使用里面的函数了；
 
