@@ -24,7 +24,7 @@ Buid for iOS
 	
 1. Create a Cartfile that lists the frameworks you’d like to use in your project.
 
-		git "git@github.com:adow/SecrecySwift.git" == 0.3.1
+		git "git@github.com:adow/SecrecySwift.git" >= 0.3.2
 	
 2. Run `carthage update`. This will fetch dependencies into a Carthage/Checkouts folder, then build each one.
 3. On your application targets’ “General” settings tab, in the “Linked Frameworks and Libraries” section, drag and drop each framework you want to use from the Carthage/Build folder on disk.
