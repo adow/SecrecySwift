@@ -25,10 +25,13 @@ SecrecySwift ，通过包装 `CommonCrypto` 和 `Security.framework`,实现 Swif
 
 1. 在项目中创建 `Cartfile` 文件，并添加下面内容
 
-		git "git@github.com:adow/SecrecySwift.git" >= 0.3.2
+		git "https://github.com/adow/SecrecySwift.git" >= 0.3.3
 		
 2. 运行 `Carthage update`, 获取 SecrecySwift;
 3. 拖动 `Carthage/Build/iOS` 下面的 `Secrecy.framwork` 到项目 `Targets`, `General` 设置标签的 `Linked Frameworks and Linraries` 中；
+
+	![secrecy-1](http://7vihfk.com1.z0.glb.clouddn.com/secrecy-1.png)
+	
 4. 在 `Targes` 的 `Build Phases` 设置中，点击 `+` 按钮，添加 `New Run Script Phase` 来添加脚本:
 
 		/usr/local/bin/carthage copy-frameworks
@@ -36,6 +39,8 @@ SecrecySwift ，通过包装 `CommonCrypto` 和 `Security.framework`,实现 Swif
 	同时在下面的 `Input Files` 中添加:
 
 		$(SRCROOT)/Carthage/Build/iOS/Secrecy.framework
+		
+	![secrecy-2](http://7vihfk.com1.z0.glb.clouddn.com/secrecy-2.png)
 		
 ### 手动安装
 
@@ -46,7 +51,7 @@ SecrecySwift ，通过包装 `CommonCrypto` 和 `Security.framework`,实现 Swif
 1. 首先确保项目已经在 git 仓库中;
 2. 添加 `SecrecySwift` 作为 Submodule:
 
-		git submodule add git@github.com:adow/SecrecySwift.git
+		git submodule add https://github.com/adow/SecrecySwift.git
 
 3. 在 Xcode 中打开项目，将 SecrecySwift.xcodeproj 拖放到你的项目的根目录下;
 4. 在你的项目下，选择 `Targets` , `General` 中添加 `Embedded Binaries`, 选择 `Secrecy.framework`, 确保 `Build Phases` 中的 `Link Binary with Libraries` 中有 `Secrecy.framework`;

@@ -24,10 +24,13 @@ Buid for iOS
 	
 1. Create a Cartfile that lists the frameworks you’d like to use in your project.
 
-		git "git@github.com:adow/SecrecySwift.git" >= 0.3.2
+		git "https://github.com/adow/SecrecySwift.git" >= 0.3.3
 	
 2. Run `carthage update`. This will fetch dependencies into a Carthage/Checkouts folder, then build each one.
 3. On your application targets’ “General” settings tab, in the “Linked Frameworks and Libraries” section, drag and drop each framework you want to use from the Carthage/Build folder on disk.
+
+	![secrecy-1](http://7vihfk.com1.z0.glb.clouddn.com/secrecy-1.png)
+
 4. On your application targets’ “Build Phases” settings tab, click the “+” icon and choose “New Run Script Phase”. Create a Run Script with the following contents:
 
 		/usr/local/bin/carthage copy-frameworks
@@ -36,6 +39,9 @@ Buid for iOS
 
 		$(SRCROOT)/Carthage/Build/iOS/Secrecy.framework
 	
+
+	![secrecy-2](http://7vihfk.com1.z0.glb.clouddn.com/secrecy-2.png)
+	
 ### Manually 
 
 #### Git Submodule
@@ -43,7 +49,7 @@ Buid for iOS
 1. Make sure that your project is in Git repository;
 2. Add `SecrecySwift` as submodule;
 
-		git submodule add git@github.com:adow/SecrecySwift.git
+		git submodule https://github.com/adow/SecrecySwift.git
 	
 3. Drag and drop `SecrecySwift.xcodeproj` to your project;
 4. On your application targets, `General` tab, `Embedded Binaries` setting, click `+` to add `Secrecy.framework`. You will find `Secrecy.framework` is also in `Build Phases` / `Link Binary with Libraries`.
