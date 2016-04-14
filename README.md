@@ -25,7 +25,7 @@ SecrecySwift ，通过包装 `CommonCrypto` 和 `Security.framework`,实现 Swif
 
 1. 在项目中创建 `Cartfile` 文件，并添加下面内容
 
-		git "https://github.com/adow/SecrecySwift.git" >= 0.3.3
+		git "https://github.com/adow/SecrecySwift.git" >= 0.3.4
 		
 2. 运行 `Carthage update`, 获取 SecrecySwift;
 3. 拖动 `Carthage/Build/iOS` 下面的 `Secrecy.framwork` 到项目 `Targets`, `General` 设置标签的 `Linked Frameworks and Linraries` 中；
