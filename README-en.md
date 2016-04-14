@@ -73,7 +73,7 @@ Buid for iOS
 		    export *
 		}
 
-3. On your application targets `Build Settings`, `Import Paths` setting, add `CommonCrypto`;
+3. On your application targets `Build Settings`, `Import Paths` setting, add `CommonCrypto`. And add `/usr/lib/system/` on `Library Search Paths` ;
 4. On your applicationtargets `Build Phases` tab, `Link Binary with Linbrries` setting, add `Security.framework` and `SystemConfiguration.framework`;
 
 You should not `import Secrecy` any more.

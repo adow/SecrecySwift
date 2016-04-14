@@ -75,7 +75,7 @@ SecrecySwift ，通过包装 `CommonCrypto` 和 `Security.framework`,实现 Swif
 		    export *
 		}
 
-3. 在项目 Targets 的 `Build Settings` 中添加 `Import Paths` 中添加 `CommonCrypto`。
+3. 在项目 Targets 的 `Build Settings` 中添加 `Import Paths` 中添加 `CommonCrypto`, 在 `Library Search Path` 中添加 `/usr/lib/system`。
 
 4. 在 `Targets` 中 `Build Phases` 的 `Link Binary with Libraries` 中添加 `Security.framework` 和 `SystemConfiguration.framework`。
 
@@ -169,7 +169,7 @@ CBC 模式可以指定 IV,如果不指定 IV 的话将用 0 填充;
 
 ### RSA 
 
-** 只支持 `.der` 文件格式的公钥和 `.p12` 格式的私钥 (而 PHP/Java/Python 这些平台使用 pem 文件)；只支持 PKCS1Padding 的补齐；** 
+** 只支持 `.der` 文件格式的公钥和 `.p12` 格式的私钥 (而 PHP/Java/Python 这些平台使用 pem 文件)；只支持 PKCS1Padding 的补齐； **
 
 使用 `OpenSSL` 生成各个证书的方法
 
