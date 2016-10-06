@@ -112,7 +112,7 @@ private func rsa_publickey_from_data(keyData:NSData) -> SecKeyRef?{
         let policy = SecPolicyCreateBasicX509()
         var trust : SecTrustRef?
         if SecTrustCreateWithCertificates(certificate, policy, &trust) == errSecSuccess {
-            var trustResultType : SecTrustResultType = SecTrustResultType(kSecTrustResultInvalid)
+            var trustResultType : SecTrustResultType = SecTrustResultType.Invalid
             if SecTrustEvaluate(trust!, &trustResultType) == errSecSuccess {
                 return SecTrustCopyPublicKey(trust!)
             }
