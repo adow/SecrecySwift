@@ -12,67 +12,67 @@
 import Foundation
 import CommonCrypto
 
-public typealias DigestAlgorithmClosure = (data: UnsafePointer<UInt8>, dataLength: UInt32) -> [UInt8]
+public typealias DigestAlgorithmClosure = (_ data: UnsafePointer<UInt8>, _ dataLength: UInt32) -> [UInt8]
 
 public enum DigestAlgorithm: CustomStringConvertible {
-    case MD2, MD4, MD5, SHA1, SHA224, SHA256, SHA384, SHA512
+    case md2, md4, md5, sha1, sha224, sha256, sha384, sha512
     
     func progressClosure() -> DigestAlgorithmClosure {
         var closure: DigestAlgorithmClosure?
         
         switch self {
-        case .MD2:
+        case .md2:
             closure = {
-                var hash = [UInt8](count: self.digestLength(), repeatedValue: 0)
+                var hash = [UInt8](repeating: 0, count: self.digestLength())
                 CC_MD2($0, $1, &hash)
                 
                 return hash
             }
-        case .MD4:
+        case .md4:
             closure = {
-                var hash = [UInt8](count: self.digestLength(), repeatedValue: 0)
+                var hash = [UInt8](repeating: 0, count: self.digestLength())
                 CC_MD4($0, $1, &hash)
                 
                 return hash
             }
-        case .MD5:
+        case .md5:
             closure = {
-                var hash = [UInt8](count: self.digestLength(), repeatedValue: 0)
+                var hash = [UInt8](repeating: 0, count: self.digestLength())
                 CC_MD5($0, $1, &hash)
                 
                 return hash
             }
-        case .SHA1:
+        case .sha1:
             closure = {
-                var hash = [UInt8](count: self.digestLength(), repeatedValue: 0)
+                var hash = [UInt8](repeating: 0, count: self.digestLength())
                 CC_SHA1($0, $1, &hash)
                 
                 return hash
             }
-        case .SHA224:
+        case .sha224:
             closure = {
-                var hash = [UInt8](count: self.digestLength(), repeatedValue: 0)
+                var hash = [UInt8](repeating: 0, count: self.digestLength())
                 CC_SHA224($0, $1, &hash)
                 
                 return hash
             }
-        case .SHA256:
+        case .sha256:
             closure = {
-                var hash = [UInt8](count: self.digestLength(), repeatedValue: 0)
+                var hash = [UInt8](repeating: 0, count: self.digestLength())
                 CC_SHA256($0, $1, &hash)
                 
                 return hash
             }
-        case .SHA384:
+        case .sha384:
             closure = {
-                var hash = [UInt8](count: self.digestLength(), repeatedValue: 0)
+                var hash = [UInt8](repeating: 0, count: self.digestLength())
                 CC_SHA384($0, $1, &hash)
                 
                 return hash
             }
-        case .SHA512:
+        case .sha512:
             closure = {
-                var hash = [UInt8](count: self.digestLength(), repeatedValue: 0)
+                var hash = [UInt8](repeating: 0, count: self.digestLength())
                 CC_SHA512($0, $1, &hash)
                 
                 return hash
@@ -84,21 +84,21 @@ public enum DigestAlgorithm: CustomStringConvertible {
     func digestLength() -> Int {
         var result: CInt = 0
         switch self {
-        case .MD2:
+        case .md2:
             result = CC_MD2_DIGEST_LENGTH
-        case .MD4:
+        case .md4:
             result = CC_MD4_DIGEST_LENGTH
-        case .MD5:
+        case .md5:
             result = CC_MD5_DIGEST_LENGTH
-        case .SHA1:
+        case .sha1:
             result = CC_SHA1_DIGEST_LENGTH
-        case .SHA224:
+        case .sha224:
             result = CC_SHA224_DIGEST_LENGTH
-        case .SHA256:
+        case .sha256:
             result = CC_SHA256_DIGEST_LENGTH
-        case .SHA384:
+        case .sha384:
             result = CC_SHA384_DIGEST_LENGTH
-        case .SHA512:
+        case .sha512:
             result = CC_SHA512_DIGEST_LENGTH
         }
         return Int(result)
@@ -107,21 +107,21 @@ public enum DigestAlgorithm: CustomStringConvertible {
     public var description: String {
         get {
             switch self {
-            case .MD2:
+            case .md2:
                 return "Digest.MD2"
-            case .MD4:
+            case .md4:
                 return "Digest.MD4"
-            case .MD5:
+            case .md5:
                 return "Digest.MD5"
-            case .SHA1:
+            case .sha1:
                 return "Digest.SHA1"
-            case .SHA224:
+            case .sha224:
                 return "Digest.SHA224"
-            case .SHA256:
+            case .sha256:
                 return "Digest.SHA256"
-            case .SHA384:
+            case .sha384:
                 return "Digest.SHA384"
-            case .SHA512:
+            case .sha512:
                 return "Digest.SHA512"
             }
         }
@@ -130,45 +130,45 @@ public enum DigestAlgorithm: CustomStringConvertible {
 
 extension String {
     /// Digest to an array of UInt8
-    public func digestBytes(algorithm:DigestAlgorithm)->[UInt8]{
-        let data = self.dataUsingEncoding(NSUTF8StringEncoding)
+    public func digestBytes(_ algorithm:DigestAlgorithm)->[UInt8]{
+        let data = self.data(using: String.Encoding.utf8)
         return data!.digestBytes(algorithm)
     }
     /// Digest with an algorithm
-    public func digestData(algorithm:DigestAlgorithm)->NSData{
-        let data = self.dataUsingEncoding(NSUTF8StringEncoding)
+    public func digestData(_ algorithm:DigestAlgorithm)->Data{
+        let data = self.data(using: String.Encoding.utf8)
         return data!.digestData(algorithm)
     }
     /// Digest with an algorithm to a hexadecimal string
-    public func digestHex(algorithm:DigestAlgorithm)->String{
-        let data = self.dataUsingEncoding(NSUTF8StringEncoding)
+    public func digestHex(_ algorithm:DigestAlgorithm)->String{
+        let data = self.data(using: String.Encoding.utf8)
         return data!.digestHex(algorithm)
     }
     /// Digest with an algorithm to a base64 string
-    public func digestBase64(algorithm:DigestAlgorithm)->String{
-        let data = self.dataUsingEncoding(NSUTF8StringEncoding)
+    public func digestBase64(_ algorithm:DigestAlgorithm)->String{
+        let data = self.data(using: String.Encoding.utf8)
         return data!.digestBase64(algorithm)
     }
 }
 
-extension NSData {
+extension Data {
     /// Digest data to an array of UInt8
-    public func digestBytes(algorithm:DigestAlgorithm)->[UInt8]{
-        let string = UnsafePointer<UInt8>(self.bytes)
-        let stringLength = UInt32(self.length)
+    public func digestBytes(_ algorithm:DigestAlgorithm)->[UInt8]{
+        let string = (self as NSData).bytes.bindMemory(to: UInt8.self, capacity: self.count)
+        let stringLength = UInt32(self.count)
         
         let closure = algorithm.progressClosure()
         
-        let bytes = closure(data: string, dataLength: stringLength)
+        let bytes = closure(string, stringLength)
         return bytes
     }
     /// Digest data with an algorithm
-    public func digestData(algorithm:DigestAlgorithm)->NSData{
+    public func digestData(_ algorithm:DigestAlgorithm)->Data{
         let bytes = self.digestBytes(algorithm)
-        return NSData(bytes: bytes, length: bytes.count)
+        return Data(bytes: UnsafePointer<UInt8>(bytes), count: bytes.count)
     }
     /// Digest data with an algorithm to a hexadecimal string
-    public func digestHex(algorithm:DigestAlgorithm)->String{
+    public func digestHex(_ algorithm:DigestAlgorithm)->String{
         let digestLength = algorithm.digestLength()
         let bytes = self.digestBytes(algorithm)
         var hashString: String = ""
@@ -178,7 +178,7 @@ extension NSData {
         return hashString
     }
     /// Digest string to a base64 string with an algorithm
-    public func digestBase64(algorithm:DigestAlgorithm)->String{
+    public func digestBase64(_ algorithm:DigestAlgorithm)->String{
         let data = self.digestData(algorithm)
         return data.base64String
     }

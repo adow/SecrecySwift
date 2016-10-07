@@ -13,105 +13,114 @@ import Foundation
 import CommonCrypto
 
 
-extension NSData {
+extension Data {
     // MARK: cbc
-    private func aesCBC(operation:CCOperation,key:String, iv:String? = nil) -> NSData? {
-        guard [16,24,32].contains(key.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)) else {
+    fileprivate func aesCBC(_ operation:CCOperation,key:String, iv:String? = nil) -> Data? {
+        guard [16,24,32].contains(key.lengthOfBytes(using: String.Encoding.utf8)) else {
             return nil
         }
         let input_bytes = self.arrayOfBytes()
         let key_bytes = key.bytes
-        var encrypt_bytes = [UInt8](count: input_bytes.count * 2, repeatedValue: 0)
+        var encrypt_bytes = [UInt8](repeating: 0, count: input_bytes.count * 2)
         var encrypt_length = 0
-        let iv_bytes = (iv != nil) ? UnsafePointer<UInt8>(iv!.bytes) : UnsafePointer<UInt8>(nil)
-        let status = CCCrypt(UInt32(operation), UInt32(kCCAlgorithmAES128), UInt32(kCCOptionPKCS7Padding),
-                key_bytes, key.lengthOfBytesUsingEncoding(NSUTF8StringEncoding), iv_bytes,
-                input_bytes, input_bytes.count, &encrypt_bytes, input_bytes.count * 2, &encrypt_length)
+        
+        let iv_bytes = (iv != nil) ? iv?.bytes : nil
+        let status = CCCrypt(UInt32(operation),
+                             UInt32(kCCAlgorithmAES128),
+                             UInt32(kCCOptionPKCS7Padding),
+                            key_bytes,
+                            key.lengthOfBytes(using: String.Encoding.utf8),
+                            iv_bytes,
+                            input_bytes,
+                            input_bytes.count,
+                            &encrypt_bytes,
+                            input_bytes.count * 2,
+                            &encrypt_length)
         if status == Int32(kCCSuccess) {
-            return NSData(bytes: encrypt_bytes, length: encrypt_length)
+            return Data(bytes: UnsafePointer<UInt8>(encrypt_bytes), count: encrypt_length)
         }
         return nil
     }
     /// Encrypt data in CBC Mode, iv will be filled with zero if not specificed
-    public func aesCBCEncrypt(key:String,iv:String? = nil) -> NSData? {
+    public func aesCBCEncrypt(_ key:String,iv:String? = nil) -> Data? {
         return aesCBC(UInt32(kCCEncrypt), key: key, iv: iv)
     }
     /// Decrypt data in CBC Mode ,iv will be filled with zero if not specificed
-    public func aesCBCDecrypt(key:String,iv:String? = nil)->NSData?{
+    public func aesCBCDecrypt(_ key:String,iv:String? = nil)->Data?{
         return aesCBC(UInt32(kCCDecrypt), key: key, iv: iv)
     }
     // MARK: ecb
-    private func aesEBC(operation:CCOperation, key:String) -> NSData? {
-        guard [16,24,32].contains(key.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)) else {
+    fileprivate func aesEBC(_ operation:CCOperation, key:String) -> Data? {
+        guard [16,24,32].contains(key.lengthOfBytes(using: String.Encoding.utf8)) else {
             return nil
         }
         let input_bytes = self.arrayOfBytes()
         let key_bytes = key.bytes
-        var encrypt_bytes = [UInt8](count: input_bytes.count * 2, repeatedValue: 0)
+        var encrypt_bytes = [UInt8](repeating: 0, count: input_bytes.count * 2)
         var encrypt_length = 0
         let status = CCCrypt(UInt32(operation), UInt32(kCCAlgorithmAES128), UInt32(kCCOptionPKCS7Padding + kCCOptionECBMode),
-            key_bytes, key.lengthOfBytesUsingEncoding(NSUTF8StringEncoding), nil,
+            key_bytes, key.lengthOfBytes(using: String.Encoding.utf8), nil,
             input_bytes, input_bytes.count, &encrypt_bytes, input_bytes.count * 2, &encrypt_length)
         if status == Int32(kCCSuccess) {
-            return NSData(bytes: encrypt_bytes, length: encrypt_length)
+            return Data(bytes: UnsafePointer<UInt8>(encrypt_bytes), count: encrypt_length)
         }
         return nil
     }
     /// Encrypt data in EBC Mode
-    public func aesEBCEncrypt(key:String) -> NSData? {
+    public func aesEBCEncrypt(_ key:String) -> Data? {
         return aesEBC(UInt32(kCCEncrypt), key: key)
         
     }
     /// Decrypt data in EBC Mode
-    public func aesEBCDecrypt(key:String) -> NSData? {
+    public func aesEBCDecrypt(_ key:String) -> Data? {
         return aesEBC(UInt32(kCCDecrypt), key: key)
     }
 }
 extension String{
     // MARK: cbc
     /// Encrypt string in CBC mode, iv will be filled with Zero if not specificed
-    public func aesCBCEncrypt(key:String,iv:String? = nil) -> NSData? {
-        let data = self.dataUsingEncoding(NSUTF8StringEncoding)
+    public func aesCBCEncrypt(_ key:String,iv:String? = nil) -> Data? {
+        let data = self.data(using: String.Encoding.utf8)
 //        print(data!.hexString)
         return data?.aesCBCEncrypt(key, iv: iv)
     }
     /// Decrypt a hexadecimal string in CBC Mode, iv will be filled with Zero if not specificed
-    public func aesCBCDecryptFromHex(key:String,iv:String? = nil) ->String?{
+    public func aesCBCDecryptFromHex(_ key:String,iv:String? = nil) ->String?{
         let data = self.dataFromHexadecimalString()
         guard let raw_data = data?.aesCBCDecrypt(key, iv: iv) else{
             return nil
         }
 //        print(raw_data.hexString)
-        return String(data: raw_data, encoding: NSUTF8StringEncoding)
+        return String(data: raw_data, encoding: String.Encoding.utf8)
     }
     /// Decrypt a base64 string in CBC mode, iv will be filled with Zero if not specificed
-    public func aesCBCDecryptFromBase64(key:String, iv:String? = nil) ->String? {
-        let data = NSData(base64EncodedString: self, options: NSDataBase64DecodingOptions())
+    public func aesCBCDecryptFromBase64(_ key:String, iv:String? = nil) ->String? {
+        let data = Data(base64Encoded: self, options: NSData.Base64DecodingOptions())
         guard let raw_data = data?.aesCBCDecrypt(key, iv: iv) else{
             return nil
         }
-        return String(data: raw_data, encoding: NSUTF8StringEncoding)
+        return String(data: raw_data, encoding: String.Encoding.utf8)
     }
     // MARK: ebc
     /// Encrypt a string in EBC Mode
-    public func aesEBCEncrypt(key:String) -> NSData? {
-        let data = self.dataUsingEncoding(NSUTF8StringEncoding)
+    public func aesEBCEncrypt(_ key:String) -> Data? {
+        let data = self.data(using: String.Encoding.utf8)
         return data?.aesEBCEncrypt(key)
     }
     /// Decrypt a hexadecimal string in EBC Mode
-    public func aesEBCDecryptFromHex(key:String) -> String? {
+    public func aesEBCDecryptFromHex(_ key:String) -> String? {
         let data = self.dataFromHexadecimalString()
         guard let raw_data = data?.aesEBCDecrypt(key) else {
             return nil
         }
-        return String(data: raw_data, encoding: NSUTF8StringEncoding)
+        return String(data: raw_data, encoding: String.Encoding.utf8)
     }
     /// Decrypt a base64 string in EBC Mode
-    public func aesEBCDecryptFromBase64(key:String) -> String? {
-        let data = NSData(base64EncodedString: self, options: NSDataBase64DecodingOptions())
+    public func aesEBCDecryptFromBase64(_ key:String) -> String? {
+        let data = Data(base64Encoded: self, options: NSData.Base64DecodingOptions())
         guard let raw_data = data?.aesEBCDecrypt(key) else {
             return nil
         }
-        return String(data: raw_data, encoding: NSUTF8StringEncoding)
+        return String(data: raw_data, encoding: String.Encoding.utf8)
     }
 }

@@ -9,110 +9,110 @@
 import Foundation
 import Security
 public enum RSAAlgorithm:Int {
-    case SHA1 = 0, SHA224, SHA256, SHA384, SHA512, MD2, MD5
+    case sha1 = 0, sha224, sha256, sha384, sha512, md2, md5
     public var padding:SecPadding {
         switch self {
-        case .SHA1:
+        case .sha1:
             return SecPadding.PKCS1SHA1
-        case .SHA224:
+        case .sha224:
             return SecPadding.PKCS1SHA224
-        case .SHA256:
+        case .sha256:
             return SecPadding.PKCS1SHA256
-        case .SHA384:
+        case .sha384:
             return SecPadding.PKCS1SHA384
-        case .SHA512:
+        case .sha512:
             return SecPadding.PKCS1SHA512
-        case .MD2:
+        case .md2:
             return SecPadding.PKCS1MD2
-        case .MD5:
+        case .md5:
             return SecPadding.PKCS1MD5
         }
     }
     public var digestAlgorithm:DigestAlgorithm {
         switch self {
-        case .SHA1:
-            return DigestAlgorithm.SHA1
-        case .SHA224:
-            return DigestAlgorithm.SHA224
-        case .SHA256:
-            return DigestAlgorithm.SHA256
-        case .SHA384:
-            return DigestAlgorithm.SHA384
-        case .SHA512:
-            return DigestAlgorithm.SHA512
-        case .MD2:
-            return DigestAlgorithm.MD2
-        case .MD5:
-            return DigestAlgorithm.MD5
+        case .sha1:
+            return DigestAlgorithm.sha1
+        case .sha224:
+            return DigestAlgorithm.sha224
+        case .sha256:
+            return DigestAlgorithm.sha256
+        case .sha384:
+            return DigestAlgorithm.sha384
+        case .sha512:
+            return DigestAlgorithm.sha512
+        case .md2:
+            return DigestAlgorithm.md2
+        case .md5:
+            return DigestAlgorithm.md5
         }
     }
 }
 // MARK: - func
 /// encrypt
-private func rsa_encrypt(inputData:NSData, withKey key:SecKeyRef) -> NSData?{
-    guard inputData.length > 0 && inputData.length < SecKeyGetBlockSize(key) - 11  else {
+private func rsa_encrypt(_ inputData:Data, withKey key:SecKey) -> Data?{
+    guard inputData.count > 0 && inputData.count < SecKeyGetBlockSize(key) - 11  else {
         return nil
     }
     let key_size = SecKeyGetBlockSize(key)
-    var encrypt_bytes = [UInt8](count: key_size, repeatedValue: 0)
+    var encrypt_bytes = [UInt8](repeating: 0, count: key_size)
     var output_size : Int = key_size
     if SecKeyEncrypt(key, SecPadding.PKCS1,
-        inputData.arrayOfBytes(), inputData.length,
+        inputData.arrayOfBytes(), inputData.count,
         &encrypt_bytes, &output_size) == errSecSuccess {
-            return NSData(bytes: encrypt_bytes, length: output_size)
+            return Data(bytes: UnsafePointer<UInt8>(encrypt_bytes), count: output_size)
     }
     return nil
 }
 /// decrypt
-private func rsa_decrypt(inputData:NSData, withKey key:SecKeyRef) -> NSData? {
-    guard inputData.length == SecKeyGetBlockSize(key) else {
+private func rsa_decrypt(_ inputData:Data, withKey key:SecKey) -> Data? {
+    guard inputData.count == SecKeyGetBlockSize(key) else {
         return nil
     }
     let key_size = SecKeyGetBlockSize(key)
-    var decrypt_bytes = [UInt8](count: key_size, repeatedValue: 0)
+    var decrypt_bytes = [UInt8](repeating: 0, count: key_size)
     var output_size: Int = key_size
-    if SecKeyDecrypt(key, SecPadding.PKCS1, inputData.arrayOfBytes(), inputData.length, &decrypt_bytes, &output_size) == errSecSuccess {
-        return NSData(bytes: decrypt_bytes, length: output_size)
+    if SecKeyDecrypt(key, SecPadding.PKCS1, inputData.arrayOfBytes(), inputData.count, &decrypt_bytes, &output_size) == errSecSuccess {
+        return Data(bytes: UnsafePointer<UInt8>(decrypt_bytes), count: output_size)
     }
     else {
         return nil
     }
 }
 /// sign
-private func rsa_sign(inputData:NSData,withAlgorithm algorithm:RSAAlgorithm, withKey key:SecKeyRef) -> NSData? {
+private func rsa_sign(_ inputData:Data,withAlgorithm algorithm:RSAAlgorithm, withKey key:SecKey) -> Data? {
     let digestInputData = inputData.digestData(algorithm.digestAlgorithm)
 //    print("digestInput:\(digestInputData.hexString)")
-    guard digestInputData.length > 0 && digestInputData.length < SecKeyGetBlockSize(key) - 11  else {
+    guard digestInputData.count > 0 && digestInputData.count < SecKeyGetBlockSize(key) - 11  else {
         return nil
     }
     let key_size = SecKeyGetBlockSize(key)
-    var sign_bytes = [UInt8](count: key_size, repeatedValue: 0)
+    var sign_bytes = [UInt8](repeating: 0, count: key_size)
     var sign_size : Int = key_size
-    let result = SecKeyRawSign(key, algorithm.padding, digestInputData.arrayOfBytes(), digestInputData.length, &sign_bytes, &sign_size)
+    let result = SecKeyRawSign(key, algorithm.padding, digestInputData.arrayOfBytes(), digestInputData.count, &sign_bytes, &sign_size)
 //    print("result:\(result)")
     if result == errSecSuccess {
-        return NSData(bytes: sign_bytes, length: sign_size)
+        return Data(bytes: UnsafePointer<UInt8>(sign_bytes), count: sign_size)
     }
     return nil
 }
 /// verify
-private func rsa_verify(inputData:NSData, signedData:NSData,
-    withAlgorithm algorithm:RSAAlgorithm, whthKey key:SecKeyRef) -> Bool {
+private func rsa_verify(_ inputData:Data, signedData:Data,
+    withAlgorithm algorithm:RSAAlgorithm, whthKey key:SecKey) -> Bool {
     let digestInputData = inputData.digestData(algorithm.digestAlgorithm)
 //    print("digestInput:\(digestInputData.hexString)")   
-    guard digestInputData.length > 0 && digestInputData.length < SecKeyGetBlockSize(key) - 11  else {
+    guard digestInputData.count > 0 && digestInputData.count < SecKeyGetBlockSize(key) - 11  else {
         return false
     }
-    let result = SecKeyRawVerify(key, algorithm.padding, digestInputData.arrayOfBytes(), digestInputData.length, signedData.arrayOfBytes(), signedData.length)
+    let result = SecKeyRawVerify(key, algorithm.padding, digestInputData.arrayOfBytes(), digestInputData.count, signedData.arrayOfBytes(), signedData.count)
     return result == errSecSuccess
 }
 /// publicKey
-private func rsa_publickey_from_data(keyData:NSData) -> SecKeyRef?{
-    if let certificate = SecCertificateCreateWithData(kCFAllocatorDefault, keyData) {
+private func rsa_publickey_from_data(_ keyData:Data) -> SecKey?{
+    if let certificate = SecCertificateCreateWithData(kCFAllocatorDefault, keyData as CFData) {
         let policy = SecPolicyCreateBasicX509()
-        var trust : SecTrustRef?
+        var trust : SecTrust?
         if SecTrustCreateWithCertificates(certificate, policy, &trust) == errSecSuccess {
-            var trustResultType : SecTrustResultType = SecTrustResultType.Invalid
+            var trustResultType : SecTrustResultType = SecTrustResultType.invalid
             if SecTrustEvaluate(trust!, &trustResultType) == errSecSuccess {
                 return SecTrustCopyPublicKey(trust!)
             }
@@ -123,18 +123,18 @@ private func rsa_publickey_from_data(keyData:NSData) -> SecKeyRef?{
     
 }
 /// privateKey
-private func rsa_privatekey_from_data(keyData:NSData, withPassword password:String) -> SecKeyRef? {
-    var privateKey: SecKeyRef? = nil
+private func rsa_privatekey_from_data(_ keyData:Data, withPassword password:String) -> SecKey? {
+    var privateKey: SecKey? = nil
     let options : [String:String] = [kSecImportExportPassphrase as String:password]
     var items : CFArray?
-    if SecPKCS12Import(keyData, options, &items) == errSecSuccess {
+    if SecPKCS12Import(keyData as CFData, options as CFDictionary, &items) == errSecSuccess {
         //            print("items:\(CFArrayGetCount(items))")
         if CFArrayGetCount(items) > 0 {
-            let d = unsafeBitCast(CFArrayGetValueAtIndex(items, 0),CFDictionaryRef.self)
-            let k = unsafeAddressOf(kSecImportItemIdentity as NSString)
+            let d = unsafeBitCast(CFArrayGetValueAtIndex(items, 0),to: CFDictionary.self)
+            let k = Unmanaged.passUnretained(kSecImportItemIdentity as NSString).toOpaque()
             let v = CFDictionaryGetValue(d, k)
             //                print("identity:\(identity)")
-            let secIdentity = unsafeBitCast(v, SecIdentityRef.self)
+            let secIdentity = unsafeBitCast(v, to: SecIdentity.self)
             //                print("secIdentity:\(secIdentity)")
             if SecIdentityCopyPrivateKey(secIdentity, &privateKey) == errSecSuccess {
                 return privateKey
@@ -147,16 +147,16 @@ private func rsa_privatekey_from_data(keyData:NSData, withPassword password:Stri
 
 // MARK: - RSA
 public struct RSA {
-    private let publicKey:SecKeyRef!
-    private let privateKey:SecKeyRef!
+    fileprivate let publicKey:SecKey!
+    fileprivate let privateKey:SecKey!
     // MARK: init
     /// PublicKey must be in .der format and private must be in .p12 format
-    public init(publicKey:SecKeyRef!, privateKey:SecKeyRef!){
+    public init(publicKey:SecKey!, privateKey:SecKey!){
         self.publicKey = publicKey
         self.privateKey = privateKey
     }
-    public init(dataOfPublicKey publicKeyData:NSData,
-        dataOfPrivateKey privateKeyData:NSData,
+    public init(dataOfPublicKey publicKeyData:Data,
+        dataOfPrivateKey privateKeyData:Data,
         withPasswordOfPrivateKey password:String = ""){
         self.publicKey = rsa_publickey_from_data(publicKeyData)!
         self.privateKey = rsa_privatekey_from_data(privateKeyData, withPassword: password)!
@@ -169,9 +169,9 @@ public struct RSA {
     */
     public init?(filenameOfPulbicKey publicKeyFilename:String,
         filenameOfPrivateKey privateKeyFilename:String, withPasswordOfPrivateKey password:String = ""){
-        let publicKeyData = NSData(contentsOfFile: publicKeyFilename)
-        let privateKeyData = NSData(contentsOfFile: privateKeyFilename)
-        guard let _publicKeyData = publicKeyData, _privateKeyData = privateKeyData else {
+        let publicKeyData = try? Data(contentsOf: URL(fileURLWithPath: publicKeyFilename))
+        let privateKeyData = try? Data(contentsOf: URL(fileURLWithPath: privateKeyFilename))
+        guard let _publicKeyData = publicKeyData, let _privateKeyData = privateKeyData else {
             return nil
         }
         self.publicKey = rsa_publickey_from_data(_publicKeyData)
@@ -181,24 +181,24 @@ public struct RSA {
 // MARK: - encrypt
 extension RSA {
     /// Encrypt with privateKey
-    public func encrypt(data:NSData) -> NSData? {
+    public func encrypt(_ data:Data) -> Data? {
         return rsa_encrypt(data, withKey: self.publicKey)
     }
     /// Decrypt with publicKey
-    public func decrypt(data:NSData) -> NSData? {
+    public func decrypt(_ data:Data) -> Data? {
         return rsa_decrypt(data, withKey: self.privateKey)
     }
     /// Decrypt a hexadecimal string with publicKey
-    public func decrypt(fromHexString hexString:String) -> NSData? {
+    public func decrypt(fromHexString hexString:String) -> Data? {
         let data = hexString.dataFromHexadecimalString()
         guard let _data = data else {
             return nil
         }
-        return self.decrypt(_data)
+        return self.decrypt(_data as Data)
     }
     /// Decrypt a base64 string with publicKey
-    public func decrypt(fromBase64String base64String:String) -> NSData? {
-        let data = NSData(base64EncodedString: base64String, options: NSDataBase64DecodingOptions())
+    public func decrypt(fromBase64String base64String:String) -> Data? {
+        let data = Data(base64Encoded: base64String, options: NSData.Base64DecodingOptions())
         guard let _data = data else {
             return nil
         }
@@ -208,11 +208,11 @@ extension RSA {
 // MARK: - sign
 extension RSA {
     /// Sign data with digest algorithm
-    public func sign(algorithm:RSAAlgorithm,inputData:NSData) -> NSData? {
+    public func sign(_ algorithm:RSAAlgorithm,inputData:Data) -> Data? {
         return rsa_sign(inputData, withAlgorithm: algorithm, withKey: self.privateKey)
     }
     /// Verify signature with algorithm
-    public func verify(algorithm:RSAAlgorithm,inputData:NSData, signedData:NSData) -> Bool {
+    public func verify(_ algorithm:RSAAlgorithm,inputData:Data, signedData:Data) -> Bool {
         return rsa_verify(inputData, signedData: signedData, withAlgorithm: algorithm, whthKey: self.publicKey)
     }
 }
