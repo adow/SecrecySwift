@@ -57,15 +57,20 @@ extension ViewController {
         }
         
         let raw = "0123456789abcdefg"
-        print(raw.digestBase64(DigestAlgorithm.sha1))
+//        print(raw.digestBase64(DigestAlgorithm.sha1))
+//        print(raw.digestBase64(DigestAlgorithm.md5))
         let raw_data = raw.data(using: String.Encoding.utf8)!
-        let sign_data = _rsa.sign(RSAAlgorithm.sha1,inputData:raw_data)
+//        let sign_data = _rsa.sign(RSAAlgorithm.sha1,inputData:raw_data)
+        let sign_data = _rsa.sign(RSAAlgorithm.md5,inputData:raw_data)
+//        let sign_data = _rsa.sign(RSAAlgorithm.sha256,inputData:raw_data)
 //        print(sign_data!.hexString)
         print(sign_data!.base64String)
        
         let raw_test = "0123456789abcdefg"
         let raw_test_data = raw_test.data(using: String.Encoding.utf8)!
-        let verified = _rsa.verify(RSAAlgorithm.sha1,inputData: raw_test_data, signedData: sign_data!)
+//        let verified = _rsa.verify(RSAAlgorithm.sha1,inputData: raw_test_data, signedData: sign_data!)
+        let verified = _rsa.verify(RSAAlgorithm.md5,inputData: raw_test_data, signedData: sign_data!)
+//        let verified = _rsa.verify(RSAAlgorithm.sha256,inputData: raw_test_data, signedData: sign_data!)
         print("\(verified)")
     }
     

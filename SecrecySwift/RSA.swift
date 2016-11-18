@@ -23,9 +23,11 @@ public enum RSAAlgorithm:Int {
         case .sha512:
             return SecPadding.PKCS1SHA512
         case .md2:
-            return SecPadding.PKCS1MD2
+//            return SecPadding.PKCS1MD2
+            return SecPadding.PKCS1
         case .md5:
-            return SecPadding.PKCS1MD5
+//            return SecPadding.PKCS1MD5
+            return SecPadding.PKCS1
         }
     }
     public var digestAlgorithm:DigestAlgorithm {
