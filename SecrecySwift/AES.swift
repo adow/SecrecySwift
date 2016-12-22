@@ -21,8 +21,9 @@ extension Data {
         }
         let input_bytes = self.arrayOfBytes()
         let key_bytes = key.bytes
-        var encrypt_bytes = [UInt8](repeating: 0, count: input_bytes.count * 2)
-        var encrypt_length = 0
+        var encrypt_length = Swift.max(input_bytes.count * 2, 16)
+        var encrypt_bytes = [UInt8](repeating: 0,
+                                    count: encrypt_length)
         
         let iv_bytes = (iv != nil) ? iv?.bytes : nil
         let status = CCCrypt(UInt32(operation),
@@ -34,7 +35,7 @@ extension Data {
                             input_bytes,
                             input_bytes.count,
                             &encrypt_bytes,
-                            input_bytes.count * 2,
+                            encrypt_bytes.count,
                             &encrypt_length)
         if status == Int32(kCCSuccess) {
             return Data(bytes: UnsafePointer<UInt8>(encrypt_bytes), count: encrypt_length)
@@ -56,11 +57,20 @@ extension Data {
         }
         let input_bytes = self.arrayOfBytes()
         let key_bytes = key.bytes
-        var encrypt_bytes = [UInt8](repeating: 0, count: input_bytes.count * 2)
-        var encrypt_length = 0
-        let status = CCCrypt(UInt32(operation), UInt32(kCCAlgorithmAES128), UInt32(kCCOptionPKCS7Padding + kCCOptionECBMode),
-            key_bytes, key.lengthOfBytes(using: String.Encoding.utf8), nil,
-            input_bytes, input_bytes.count, &encrypt_bytes, input_bytes.count * 2, &encrypt_length)
+        var encrypt_length = Swift.max(input_bytes.count * 2, 16)
+        var encrypt_bytes = [UInt8](repeating: 0,
+                                    count: encrypt_length)
+        let status = CCCrypt(UInt32(operation),
+                             UInt32(kCCAlgorithmAES128),
+                             UInt32(kCCOptionPKCS7Padding + kCCOptionECBMode),
+                             key_bytes,
+                             key.lengthOfBytes(using: String.Encoding.utf8),
+                             nil,
+                             input_bytes,
+                             input_bytes.count,
+                             &encrypt_bytes,
+                             encrypt_bytes.count,
+                             &encrypt_length)
         if status == Int32(kCCSuccess) {
             return Data(bytes: UnsafePointer<UInt8>(encrypt_bytes), count: encrypt_length)
         }

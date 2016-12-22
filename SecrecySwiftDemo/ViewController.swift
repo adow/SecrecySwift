@@ -78,8 +78,8 @@ extension ViewController {
 extension ViewController{
     fileprivate func test_aes(){
         let key = "0000000000000000"
-        let raw = "0123456789abcdef"
-//        let raw = "012345678"
+//        let raw = "0123456789abcdef"
+        let raw = "0123456"
 //        let raw = "123你好把呵呵"
 //        let raw = "你好!a"
         let encrypt_1 = raw.aesEBCEncrypt(key)
