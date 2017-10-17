@@ -76,33 +76,17 @@ extension String {
     }
     /// Get data from hexadecimal string
     func dataFromHexadecimalString() -> Data? {
-        let trimmedString = self.trimmingCharacters(in: CharacterSet(charactersIn: "<> ")).replacingOccurrences(of: " ", with: "")
+        var data = Data(capacity: characters.count / 2)
         
-        // make sure the cleaned up string consists solely of hex digits, and that we have even number of them
-        guard let regex = try? NSRegularExpression(pattern: "^[0-9a-f]*$", options: NSRegularExpression.Options.caseInsensitive) else{
-            return nil
-        }
-        let trimmedStringLength = trimmedString.lengthOfBytes(using: String.Encoding.utf8)
-        let found = regex.firstMatch(in: trimmedString, options: NSRegularExpression.MatchingOptions.reportProgress, range: NSMakeRange(0, trimmedStringLength))
-        if found == nil || found?.range.location == NSNotFound || trimmedStringLength % 2 != 0 {
-            return nil
+        let regex = try! NSRegularExpression(pattern: "[0-9a-f]{1,2}", options: .caseInsensitive)
+        regex.enumerateMatches(in: self, range: NSMakeRange(0, utf16.count)) { match, flags, stop in
+            let byteString = (self as NSString).substring(with: match!.range)
+            var num = UInt8(byteString, radix: 16)!
+            data.append(&num, count: 1)
         }
         
-        // everything ok, so now let's build NSData
+        guard data.count > 0 else { return nil }
         
-//        let data = NSMutableData(capacity: trimmedStringLength / 2)
-        
-        var data = Data(capacity: trimmedStringLength / 2)
-        
-        for index in trimmedString.characters.indices {
-            let next_index = trimmedString.index(after: index)
-            let byteString = trimmedString.substring(with: index ..< next_index)
-            let num = UInt8(byteString.withCString { strtoul($0, nil, 16) })
-//            data.append([num] as [UInt8], length: 1)
-            data.append(num)
-        }
-        
-//        return data as Data?
         return data
     }
 }
