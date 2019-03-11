@@ -68,7 +68,6 @@
 		6861E01F1C21313F00F410C9 /* HMAC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMAC.swift; sourceTree = "<group>"; };
 		6861E0251C2131B600F410C9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		6861E0271C2131BF00F410C9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		6861E02B1C2132CB00F410C9 /* module.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.map; sourceTree = "<group>"; };
 		6861E0311C2135EA00F410C9 /* cert.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = cert.der; sourceTree = "<group>"; };
 		6861E0321C2135EA00F410C9 /* cert.p12 */ = {isa = PBXFileReference; lastKnownFileType = file; path = cert.p12; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -97,7 +96,6 @@
 		6861DFF01C21308800F410C9 = {
 			isa = PBXGroup;
 			children = (
-				6861E02A1C2132CB00F410C9 /* CommonCrypto */,
 				6861E0291C2131C900F410C9 /* Frameworks */,
 				6861DFFC1C21308800F410C9 /* SecrecySwift */,
 				6861E00A1C2130AB00F410C9 /* SecrecySwiftDemo */,
@@ -150,14 +148,6 @@
 				6861E0251C2131B600F410C9 /* SystemConfiguration.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		6861E02A1C2132CB00F410C9 /* CommonCrypto */ = {
-			isa = PBXGroup;
-			children = (
-				6861E02B1C2132CB00F410C9 /* module.map */,
-			);
-			path = CommonCrypto;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -441,9 +431,9 @@
 				PRODUCT_MODULE_NAME = Secrecy;
 				PRODUCT_NAME = Secrecy;
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = CommonCrypto;
+				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -468,8 +458,8 @@
 				PRODUCT_MODULE_NAME = Secrecy;
 				PRODUCT_NAME = Secrecy;
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = CommonCrypto;
-				SWIFT_VERSION = 3.0;
+				SWIFT_INCLUDE_PATHS = "";
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
